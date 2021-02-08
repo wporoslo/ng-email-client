@@ -1,1 +1,10 @@
-<p>signup works!</p>
+<h3>Create an account</h3>
+<form [formGroup]="authForm">
+  <input formControlName="username" />
+  <input formControlName="password" />
+  <input formControlName="passwordConfirmation" />
+</form>
+<hr />
+<div>Form is valid: {{ authForm.valid }}</div>
+<div>Form values: {{ authForm.value | json }}</div>
+<div>Errors: {{ authForm.errors | json }}</div>
