@@ -1,8 +1,16 @@
 <h3>Create an account</h3>
-<form [formGroup]="authForm">
-  <input formControlName="username" />
-  <input formControlName="password" />
-  <input formControlName="passwordConfirmation" />
+<form class="ui form" [formGroup]="authForm">
+  <div class="field">
+    <label>Username</label><input formControlName="username" />
+  </div>
+  <div class="field">
+    <label>Password</label><input formControlName="password" />
+  </div>
+  <div class="field">
+    <label>Confirm the password</label
+    ><input formControlName="passwordConfirmation" />
+  </div>
+  <button class="ui submit button primary" type="submit">Submit</button>
 </form>
 <hr />
 <div>Form is valid: {{ authForm.valid }}</div>
