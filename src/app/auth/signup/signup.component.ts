@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatchPassword } from '../validators/match-password';
+import { UniqueUsername } from '../validators/unique-username';
 
 @Component({
   selector: 'app-signup',
@@ -8,15 +9,22 @@ import { MatchPassword } from '../validators/match-password';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  constructor(private matchPassword: MatchPassword) {}
+  constructor(
+    private matchPassword: MatchPassword,
+    private uniqueUsername: UniqueUsername
+  ) {}
   authForm = new FormGroup(
     {
-      username: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(20),
-        Validators.pattern(/^[a-z0-9]+$/),
-      ]),
+      username: new FormControl(
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(20),
+          Validators.pattern(/^[a-z0-9]+$/),
+        ],
+        [this.uniqueUsername.validate]
+      ),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
