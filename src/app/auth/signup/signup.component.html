@@ -1,14 +1,41 @@
 <h3>Create an account</h3>
-<form class="ui form" [formGroup]="authForm">
-  <app-input label="Username" [control]="authForm.get('username')"></app-input>
-  <app-input label="Password" [control]="authForm.get('password')"></app-input>
+<form (ngSubmit)="onSubmit()" class="ui form" [formGroup]="authForm">
   <app-input
+    inputType="text"
+    label="Username"
+    [control]="authForm.get('username')"
+  ></app-input>
+
+  <app-input
+    inputType="password"
+    label="Password"
+    [control]="authForm.get('password')"
+  ></app-input>
+
+  <app-input
+    inputType="password"
     label="Confirm the password"
     [control]="authForm.get('passwordConfirmation')"
   ></app-input>
-  <button class="ui submit button primary" type="submit">Submit</button>
+
+  <div
+    *ngIf="
+      authForm.get('password').touched &&
+      authForm.get('passwordConfirmation').touched &&
+      authForm.errors
+    "
+    class="ui red basic label"
+  >
+    <p *ngIf="authForm.errors.passwordsDontMatch">
+      Password and password confirmation must match.
+    </p>
+    <p *ngIf="authForm.errors.noConnection">
+      Failed to signed up. Check your internet connection.
+    </p>
+    <p *ngIf="authForm.errors.unknownError">Failed to sign up.</p>
+  </div>
+
+  <div>
+    <button class="ui submit button primary" type="submit">Submit</button>
+  </div>
 </form>
-<hr />
-<div>Form is valid: {{ authForm.valid }}</div>
-<div>Form values: {{ authForm.value | json }}</div>
-<div>Form errors: {{ authForm.errors | json }}</div>
