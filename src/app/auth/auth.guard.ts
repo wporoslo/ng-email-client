@@ -3,20 +3,21 @@ import {
   CanActivate,
   CanLoad,
   Route,
+  Router,
   UrlSegment,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { skipWhile, take } from 'rxjs/operators';
+import { skipWhile, take, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -37,7 +38,12 @@ export class AuthGuard implements CanActivate, CanLoad {
     | UrlTree {
     return this.authService.signedin$.pipe(
       skipWhile((value) => value === null),
-      take(1)
+      take(1),
+      tap((authenticated) => {
+        if (!authenticated) {
+          this.router.navigateByUrl('/');
+        }
+      })
     );
   }
 }
