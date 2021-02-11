@@ -13,6 +13,11 @@ interface SignupCredentials {
   passwordConfirmation: string;
 }
 
+interface SigninCredentials {
+  username: string;
+  password: string;
+}
+
 interface SignupResponse {
   username: string;
 }
@@ -32,19 +37,26 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  usernameAvailable(username: string) {
-    return this.http.post<UsernameAvailableResponse>(
-      `${this.rootUrl}/auth/username`,
-      {
-        username,
-      }
-    );
-  }
-
   signup(credentials: SignupCredentials) {
     return this.http
       .post<SignupResponse>(`${this.rootUrl}/auth/signup`, credentials)
       .pipe(tap(() => this.signedin$.next(true)));
+  }
+
+  signin(credentials: SigninCredentials) {
+    return this.http.post(`${this.rootUrl}/auth/signin`, credentials).pipe(
+      tap(() => {
+        this.signedin$.next(true);
+      })
+    );
+  }
+
+  singout() {
+    return this.http.post(`${this.rootUrl}/auth/signout`, {}).pipe(
+      tap(() => {
+        this.signedin$.next(false);
+      })
+    );
   }
 
   checkAuth() {
@@ -55,11 +67,12 @@ export class AuthService {
     );
   }
 
-  singout() {
-    return this.http.post(`${this.rootUrl}/auth/signout`, {}).pipe(
-      tap(() => {
-        this.signedin$.next(false);
-      })
+  usernameAvailable(username: string) {
+    return this.http.post<UsernameAvailableResponse>(
+      `${this.rootUrl}/auth/username`,
+      {
+        username,
+      }
     );
   }
 }
