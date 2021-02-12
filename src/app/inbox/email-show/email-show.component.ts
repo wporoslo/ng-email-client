@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { EmailService } from '../email.service';
+import { Email } from '../email';
 
 @Component({
   selector: 'app-email-show',
@@ -9,7 +10,8 @@ import { EmailService } from '../email.service';
   styleUrls: ['./email-show.component.css'],
 })
 export class EmailShowComponent implements OnInit {
-  email: any;
+  email: Email;
+
   constructor(
     private route: ActivatedRoute,
     private emailService: EmailService

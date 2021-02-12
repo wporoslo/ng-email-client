@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+import { Email } from './email';
 
 export interface EmailSummary {
   id: string;
   subject: string;
   from: string;
-}
-
-interface Email {
-  from: string;
-  html: string;
-  id: string;
-  subject: string;
-  text: string;
-  to: string;
 }
 
 @Injectable({
