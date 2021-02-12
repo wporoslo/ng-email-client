@@ -16,6 +16,7 @@ export class EmailShowComponent implements OnInit {
     private route: ActivatedRoute,
     private emailService: EmailService
   ) {
+    this.email = route.snapshot.data.email;
     this.route.data.subscribe(({ email }) => {
       this.email = email;
     });
