@@ -1,0 +1,11 @@
+<h3 class="ui header">Inbox</h3>
+<div class="ui celled list">
+  <div class="item" *ngFor="let email of emails">
+    <a [routerLink]="email.id" routerLinkActive="active">
+      <div class="content">
+        <div class="header">{{ email.subject }}</div>
+        <p>{{ email.from }}</p>
+      </div>
+    </a>
+  </div>
+</div>
